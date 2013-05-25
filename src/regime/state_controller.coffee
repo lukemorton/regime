@@ -55,11 +55,6 @@ replace_state = (controller, state) ->
   emit_state(controller, state)
   return controller
 
-merge_state = (controller, state) ->
-  merge(controller.state, state)
-  emit_state(controller, state)
-  return controller
-
 add_listener = (controller, path, fn) ->
   listeners =
     Signal.add_listeners(
@@ -81,10 +76,6 @@ create_stateful = ->
       controller = replace_state(controller, state)
       return
 
-    merge_state: (state) ->
-      controller = merge_state(controller, state)
-      return
-
     add_listener: (path, fn) ->
       controller = add_listener(controller, path, fn)
       return
@@ -92,6 +83,5 @@ create_stateful = ->
 @Regime.StateController =
   create: create
   replace_state: replace_state
-  merge_state: merge_state
   add_listener: add_listener
   create_stateful: create_stateful
