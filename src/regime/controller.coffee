@@ -45,6 +45,14 @@ paths_and_scalar_values = (obj, prefix = '') ->
 
   return p
 
+Controller.replace_state = (controller, state) ->
+  controller.state = state
+
+  for [path, path_state] in paths_and_scalar_values(state)
+    Controller.emit_state(controller, path, path_state)
+
+  return controller
+
 Controller.merge_state = (controller, state) ->
   merge(controller.state, state)
 
@@ -69,6 +77,10 @@ Controller.create_stateful = ->
     state: (path) ->
       return controller.state unless path?
       return collect_path(controller.state, path)
+
+    replace_state: (state) ->
+      controller = Controller.replace_state(controller, state)
+      return
 
     merge_state: (state) ->
       controller = Controller.merge_state(controller, state)

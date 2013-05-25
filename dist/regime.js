@@ -134,6 +134,17 @@
     return p;
   };
 
+  Controller.replace_state = function(controller, state) {
+    var path, path_state, _i, _len, _ref, _ref1;
+    controller.state = state;
+    _ref = paths_and_scalar_values(state);
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      _ref1 = _ref[_i], path = _ref1[0], path_state = _ref1[1];
+      Controller.emit_state(controller, path, path_state);
+    }
+    return controller;
+  };
+
   Controller.merge_state = function(controller, state) {
     var path, path_state, _i, _len, _ref, _ref1;
     merge(controller.state, state);
@@ -166,6 +177,9 @@
           return controller.state;
         }
         return collect_path(controller.state, path);
+      },
+      replace_state: function(state) {
+        controller = Controller.replace_state(controller, state);
       },
       merge_state: function(state) {
         controller = Controller.merge_state(controller, state);
