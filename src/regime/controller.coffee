@@ -18,7 +18,7 @@ collect_path = (obj, path) ->
   path_obj = path_obj?[p] for p in path.split('.')
   return path_obj
 
-Controller.emit_state = (controller, path, state) ->
+Controller.emit_state_path = (controller, path, state) ->
   unless state?
     state = collect_path(controller.state, path)
     return unless state?
@@ -49,7 +49,7 @@ Controller.replace_state = (controller, state) ->
   controller.state = state
 
   for [path, path_state] in paths_and_scalar_values(state)
-    Controller.emit_state(controller, path, path_state)
+    Controller.emit_state_path(controller, path, path_state)
 
   return controller
 
@@ -57,7 +57,7 @@ Controller.merge_state = (controller, state) ->
   merge(controller.state, state)
 
   for [path, path_state] in paths_and_scalar_values(state)
-    Controller.emit_state(controller, path, path_state)
+    Controller.emit_state_path(controller, path, path_state)
 
   return controller
 
@@ -67,7 +67,7 @@ Controller.add_listener = (controller, path, fn) ->
       controller.listeners,
       [path, (_, state) -> fn(state)])
   controller = Controller.push_listeners(controller, listeners)
-  Controller.emit_state(controller, path)
+  Controller.emit_state_path(controller, path)
   return controller
 
 Controller.create_stateful = ->

@@ -94,7 +94,7 @@
     return path_obj;
   };
 
-  Controller.emit_state = function(controller, path, state) {
+  Controller.emit_state_path = function(controller, path, state) {
     if (state == null) {
       state = collect_path(controller.state, path);
       if (state == null) {
@@ -140,7 +140,7 @@
     _ref = paths_and_scalar_values(state);
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       _ref1 = _ref[_i], path = _ref1[0], path_state = _ref1[1];
-      Controller.emit_state(controller, path, path_state);
+      Controller.emit_state_path(controller, path, path_state);
     }
     return controller;
   };
@@ -151,7 +151,7 @@
     _ref = paths_and_scalar_values(state);
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       _ref1 = _ref[_i], path = _ref1[0], path_state = _ref1[1];
-      Controller.emit_state(controller, path, path_state);
+      Controller.emit_state_path(controller, path, path_state);
     }
     return controller;
   };
@@ -164,7 +164,7 @@
       }
     ]);
     controller = Controller.push_listeners(controller, listeners);
-    Controller.emit_state(controller, path);
+    Controller.emit_state_path(controller, path);
     return controller;
   };
 
