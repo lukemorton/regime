@@ -1,12 +1,10 @@
-@Regime.Controller = Controller = {}
-
 {Signal} = @Regime
 
-Controller.create = (state = {}, listeners = []) ->
+create = (state = {}, listeners = []) ->
   return {state: state, listeners: listeners}
 
-Controller.push_listeners = (controller, listeners) ->
-  return Controller.create(controller.state, listeners)
+push_listeners = (controller, listeners) ->
+  return create(controller.state, listeners)
 
 merge = (obj, mixins...) ->
   for m in mixins
@@ -18,7 +16,7 @@ collect_path = (obj, path) ->
   path_obj = path_obj?[p] for p in path.split('.')
   return path_obj
 
-Controller.emit_state_path = (controller, path, state) ->
+emit_state_path = (controller, path, state) ->
   unless state?
     state = collect_path(controller.state, path)
     return unless state?
@@ -26,9 +24,9 @@ Controller.emit_state_path = (controller, path, state) ->
   Signal.emit(controller.listeners, path, state)
   return
 
-Controller.emit_state = (controller, state) ->
+emit_state = (controller, state) ->
   for [path, path_state] in paths_and_scalar_values(state)
-    Controller.emit_state_path(controller, path, path_state)
+    emit_state_path(controller, path, path_state)
 
   return
 
@@ -52,27 +50,27 @@ paths_and_scalar_values = (obj, prefix = '') ->
 
   return p
 
-Controller.replace_state = (controller, state) ->
+replace_state = (controller, state) ->
   controller.state = state
-  Controller.emit_state(controller, state)
+  emit_state(controller, state)
   return controller
 
-Controller.merge_state = (controller, state) ->
+merge_state = (controller, state) ->
   merge(controller.state, state)
-  Controller.emit_state(controller, state)
+  emit_state(controller, state)
   return controller
 
-Controller.add_listener = (controller, path, fn) ->
+add_listener = (controller, path, fn) ->
   listeners =
     Signal.add_listeners(
       controller.listeners,
       [path, (_, state) -> fn(state)])
-  controller = Controller.push_listeners(controller, listeners)
-  Controller.emit_state_path(controller, path)
+  controller = push_listeners(controller, listeners)
+  emit_state_path(controller, path)
   return controller
 
-Controller.create_stateful = ->
-  controller = Controller.create()
+create_stateful = ->
+  controller = create()
 
   return {} =
     state: (path) ->
@@ -80,14 +78,20 @@ Controller.create_stateful = ->
       return collect_path(controller.state, path)
 
     replace_state: (state) ->
-      controller = Controller.replace_state(controller, state)
+      controller = replace_state(controller, state)
       return
 
     merge_state: (state) ->
-      controller = Controller.merge_state(controller, state)
+      controller = merge_state(controller, state)
       return
 
     add_listener: (path, fn) ->
-      controller = Controller.add_listener(controller, path, fn)
+      controller = add_listener(controller, path, fn)
       return
 
+@Regime.Controller =
+  create: create
+  replace_state: replace_state
+  merge_state: merge_state
+  add_listener: add_listener
+  create_stateful: create_stateful
