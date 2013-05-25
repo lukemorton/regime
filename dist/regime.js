@@ -101,7 +101,7 @@
         return;
       }
     }
-    return Signal.emit(controller.listeners, path, state);
+    Signal.emit(controller.listeners, path, state);
   };
 
   is_scalar = function(v) {

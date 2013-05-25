@@ -24,6 +24,7 @@ Controller.emit_state = (controller, path, state) ->
     return unless state?
   
   Signal.emit(controller.listeners, path, state)
+  return
 
 is_scalar = (v) ->
   switch typeof v
@@ -64,15 +65,16 @@ Controller.add_listener = (controller, path, fn) ->
 Controller.create_stateful = ->
   controller = Controller.create()
 
-  state: (path) ->
-    return controller.state unless path?
-    return collect_path(controller.state, path)
+  return {} =
+    state: (path) ->
+      return controller.state unless path?
+      return collect_path(controller.state, path)
 
-  push_state: (state) ->
-    controller = Controller.push_state(controller, state)
-    return
+    push_state: (state) ->
+      controller = Controller.push_state(controller, state)
+      return
 
-  add_listener: (path, fn) ->
-    controller = Controller.add_listener(controller, path, fn)
-    return
+    add_listener: (path, fn) ->
+      controller = Controller.add_listener(controller, path, fn)
+      return
 
