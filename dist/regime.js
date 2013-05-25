@@ -134,7 +134,7 @@
     return p;
   };
 
-  Controller.push_state = function(controller, state) {
+  Controller.merge_state = function(controller, state) {
     var path, path_state, _i, _len, _ref, _ref1;
     merge(controller.state, state);
     _ref = paths_and_scalar_values(state);
@@ -167,8 +167,8 @@
         }
         return collect_path(controller.state, path);
       },
-      push_state: function(state) {
-        controller = Controller.push_state(controller, state);
+      merge_state: function(state) {
+        controller = Controller.merge_state(controller, state);
       },
       add_listener: function(path, fn) {
         controller = Controller.add_listener(controller, path, fn);

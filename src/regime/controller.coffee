@@ -12,7 +12,7 @@ collect_path = (obj, path) ->
   path_obj = merge({}, obj)
   path_obj = path_obj?[p] for p in path.split('.')
   return path_obj
-  
+
 merge = (obj, mixins...) ->
   for m in mixins
     obj[k] = v for k, v of m
@@ -45,7 +45,7 @@ paths_and_scalar_values = (obj, prefix = '') ->
 
   return p
 
-Controller.push_state = (controller, state) ->
+Controller.merge_state = (controller, state) ->
   merge(controller.state, state)
 
   for [path, path_state] in paths_and_scalar_values(state)
@@ -70,8 +70,8 @@ Controller.create_stateful = ->
       return controller.state unless path?
       return collect_path(controller.state, path)
 
-    push_state: (state) ->
-      controller = Controller.push_state(controller, state)
+    merge_state: (state) ->
+      controller = Controller.merge_state(controller, state)
       return
 
     add_listener: (path, fn) ->
