@@ -26,10 +26,17 @@ Controller.emit_state_path = (controller, path, state) ->
   Signal.emit(controller.listeners, path, state)
   return
 
+Controller.emit_state = (controller, state) ->
+  for [path, path_state] in paths_and_scalar_values(state)
+    Controller.emit_state_path(controller, path, path_state)
+
+  return
+
 is_scalar = (v) ->
   switch typeof v
     when 'string', 'number', 'boolean'
       return yes
+
   return yes unless v?
   return no
 
@@ -47,18 +54,12 @@ paths_and_scalar_values = (obj, prefix = '') ->
 
 Controller.replace_state = (controller, state) ->
   controller.state = state
-
-  for [path, path_state] in paths_and_scalar_values(state)
-    Controller.emit_state_path(controller, path, path_state)
-
+  Controller.emit_state(controller, state)
   return controller
 
 Controller.merge_state = (controller, state) ->
   merge(controller.state, state)
-
-  for [path, path_state] in paths_and_scalar_values(state)
-    Controller.emit_state_path(controller, path, path_state)
-
+  Controller.emit_state(controller, state)
   return controller
 
 Controller.add_listener = (controller, path, fn) ->
