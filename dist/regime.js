@@ -70,17 +70,6 @@
     return Controller.create(controller.state, listeners);
   };
 
-  collect_path = function(obj, path) {
-    var p, path_obj, _i, _len, _ref;
-    path_obj = merge({}, obj);
-    _ref = path.split('.');
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      p = _ref[_i];
-      path_obj = path_obj != null ? path_obj[p] : void 0;
-    }
-    return path_obj;
-  };
-
   merge = function() {
     var k, m, mixins, obj, v, _i, _len;
     obj = arguments[0], mixins = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
@@ -92,6 +81,17 @@
       }
     }
     return obj;
+  };
+
+  collect_path = function(obj, path) {
+    var p, path_obj, _i, _len, _ref;
+    path_obj = merge({}, obj);
+    _ref = path.split('.');
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      p = _ref[_i];
+      path_obj = path_obj != null ? path_obj[p] : void 0;
+    }
+    return path_obj;
   };
 
   Controller.emit_state = function(controller, path, state) {

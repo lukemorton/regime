@@ -8,15 +8,15 @@ Controller.create = (state = {}, listeners = []) ->
 Controller.push_listeners = (controller, listeners) ->
   return Controller.create(controller.state, listeners)
 
-collect_path = (obj, path) ->
-  path_obj = merge({}, obj)
-  path_obj = path_obj?[p] for p in path.split('.')
-  return path_obj
-
 merge = (obj, mixins...) ->
   for m in mixins
     obj[k] = v for k, v of m
   return obj
+
+collect_path = (obj, path) ->
+  path_obj = merge({}, obj)
+  path_obj = path_obj?[p] for p in path.split('.')
+  return path_obj
 
 Controller.emit_state = (controller, path, state) ->
   unless state?
