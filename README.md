@@ -18,7 +18,10 @@ controller.add_listener('user.name', function (name) {
 controller.merge_state({user: {name: 'Luke'}});
 controller.merge_state({user: {age: 23}});
 controller.merge_state({user: {name: 'Rosa'}});
-controller.merge_state({user: false});
+console.log(controller.state());
+
+controller.replace_state({});
+console.log(controller.state());
 ```
 
 ## License
