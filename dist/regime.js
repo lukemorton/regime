@@ -173,7 +173,7 @@
     return {
       state: function(path) {
         if (path == null) {
-          return controller.state;
+          return merge({}, controller.state);
         }
         return collect_path(controller.state, path);
       },

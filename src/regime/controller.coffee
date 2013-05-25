@@ -76,7 +76,7 @@ Controller.create_stateful = ->
 
   return {} =
     state: (path) ->
-      return controller.state unless path?
+      return merge({}, controller.state) unless path?
       return collect_path(controller.state, path)
 
     replace_state: (state) ->
