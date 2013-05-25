@@ -9,11 +9,11 @@ Controller.push_listeners = (controller, listeners) ->
   return Controller.create(controller.state, listeners)
 
 collect_path = (obj, path) ->
-  path_obj = mixin({}, obj)
+  path_obj = merge({}, obj)
   path_obj = path_obj?[p] for p in path.split('.')
   return path_obj
-
-mixin = (obj, mixins...) ->
+  
+merge = (obj, mixins...) ->
   for m in mixins
     obj[k] = v for k, v of m
   return obj
@@ -46,7 +46,7 @@ paths_and_scalar_values = (obj, prefix = '') ->
   return p
 
 Controller.push_state = (controller, state) ->
-  mixin(controller.state, state)
+  merge(controller.state, state)
 
   for [path, path_state] in paths_and_scalar_values(state)
     Controller.emit_state(controller, path, path_state)
