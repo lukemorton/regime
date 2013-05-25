@@ -24,6 +24,20 @@ controller.replace_state({});
 console.log(controller.state());
 ```
 
+``` javascript
+var listeners = Regime.Signal.listeners(
+  ['', console.log],
+  ['hello', console.log]);
+
+var more_listeners = Regime.Signal.add_listeners(
+  listeners,
+  ['hello another', console.log]);
+
+Regime.Signal.emit(listeners, 'hello', 'Luke');
+Regime.Signal.emit(more_listeners, 'hello', 'Luke');
+Regime.Signal.emit(more_listeners, 'another');
+```
+
 ## License
 
 Copyright © 2013 Luke Morton
