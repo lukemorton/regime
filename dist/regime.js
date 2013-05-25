@@ -161,8 +161,11 @@
     var controller;
     controller = Controller.create();
     return {
-      state: function() {
-        return controller.state;
+      state: function(path) {
+        if (path == null) {
+          return controller.state;
+        }
+        return collect_path(controller.state, path);
       },
       push_state: function(state) {
         controller = Controller.push_state(controller, state);

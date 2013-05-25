@@ -64,7 +64,9 @@ Controller.add_listener = (controller, path, fn) ->
 Controller.create_stateful = ->
   controller = Controller.create()
 
-  state: -> controller.state
+  state: (path) ->
+    return controller.state unless path?
+    return collect_path(controller.state, path)
 
   push_state: (state) ->
     controller = Controller.push_state(controller, state)
