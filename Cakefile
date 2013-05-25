@@ -20,7 +20,7 @@ task 'dist', ->
     order = [
       'lib/regime.js'
       'lib/regime/signal.js'
-      'lib/regime/controller.js'
+      'lib/regime/state_controller.js'
     ]
 
     exec_out("cat #{order.join(' ')} > dist/regime.js")

@@ -191,7 +191,7 @@
     };
   };
 
-  this.Regime.Controller = {
+  this.Regime.StateController = {
     create: create,
     replace_state: replace_state,
     merge_state: merge_state,

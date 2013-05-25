@@ -5,7 +5,7 @@ It's a coup d'état.
 ## Example
 
 ``` javascript
-var controller = Regime.Controller.create_stateful();
+var controller = Regime.StateController.create_stateful();
 
 controller.add_listener('user', function (user) {
   console.log('user:', user);

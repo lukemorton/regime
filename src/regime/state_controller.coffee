@@ -89,7 +89,7 @@ create_stateful = ->
       controller = add_listener(controller, path, fn)
       return
 
-@Regime.Controller =
+@Regime.StateController =
   create: create
   replace_state: replace_state
   merge_state: merge_state
